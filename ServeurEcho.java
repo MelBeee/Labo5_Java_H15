@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 
 public  class ServeurEcho
-{
+{	
 	public void lancerServeur(int port)
 	{
 		try
@@ -24,17 +24,20 @@ public  class ServeurEcho
 			{
 				try
 				{
-					unSocket = socketServeur.accept();
-					System.out.println("Connexion du client.");
-					
-					Connexion uneConnexion = new Connexion(unSocket);
-					Thread unDeConnexion = new Thread(uneConnexion);
-					unDeConnexion.setDaemon(true);
-					unDeConnexion.start();
+					if(Connexion.cCourante <= Connexion.nbConn)
+					{
+						unSocket = socketServeur.accept();
+						System.out.println("Connexion du client.");
+						
+						Connexion uneConnexion = new Connexion(unSocket);
+						Thread unDeConnexion = new Thread(uneConnexion);
+						unDeConnexion.setDaemon(true);
+						unDeConnexion.start();
+					}
 				}
 				catch (SocketTimeoutException  e)
                 {
-                  
+				
                 }
 			}	
 			

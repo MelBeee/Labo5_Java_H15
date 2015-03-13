@@ -9,6 +9,14 @@ public class Connexion implements Runnable
 		unSocket = unSocketUtilise;
     }
 
+	public static final int nbConn = 2;
+	public static int cCourante = 0;
+	
+	//public static void decrementConnexion()
+	//{
+	//	cCourante--;
+	//}
+	
     public void run()
     {
 		try
@@ -16,13 +24,13 @@ public class Connexion implements Runnable
 			PrintWriter writer = new PrintWriter(new OutputStreamWriter(unSocket.getOutputStream()));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(unSocket.getInputStream()));
 			String uneLigne = new String();
-			
+			cCourante ++;
 			do
 			{
 				uneLigne = reader.readLine();
 				writer.println(uneLigne);
 				writer.flush();
-			}while(!uneLigne.isEmpty());
+			}while(uneLigne != null && !uneLigne.isEmpty());
 			
 			writer.close();
 			reader.close();
@@ -34,11 +42,13 @@ public class Connexion implements Runnable
 			System.err.println("Fermeture innattendue de session sans fermer la connexion");
 			System.exit(1);
 		}	
+		
 		finally
 		{
 			try
 			{
 				unSocket.close();
+				cCourante --;
 			}
 			catch(IOException ioe)
 			{ 
