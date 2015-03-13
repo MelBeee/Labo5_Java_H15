@@ -11,6 +11,7 @@ public  class ServeurEcho
 			ServerSocket socketServeur = null;
 			
 			socketServeur = new ServerSocket(port);
+			socketServeur.setSoTimeout(1000);
 			System.out.println("Serveur echo en attente d'une connexion.");
 			
 			Terminateur unTerminateur = new Terminateur();
